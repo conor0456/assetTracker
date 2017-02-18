@@ -1,0 +1,120 @@
+<html>
+<head>
+	<title>CODE SCRATCHER : Stock Price Ticker</title>
+	<style type="text/css">
+		
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+	<script type="text/javascript">
+    var stocks=[
+      {
+        ticker: "AAPL",
+        name: "Apple",
+        numberOfShares: 100,
+        avgPurchasePrice: 3.32
+      }
+
+
+
+    ]
+        function getPrice(tickers)
+        {
+        	var Symbol = "", CompName = "", price = [], ChnageInPrice = "", PercentChnageInPrice = ""; 
+            var CNames = tickers;
+            var flickerAPI = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22" + CNames + "%22)&env=store://datatables.org/alltableswithkeys";
+            var StockTickerHTML = "";
+            
+            var StockTickerXML = $.get(flickerAPI, function(xml) {
+                $(xml).find("quote").each(function () {
+                    Symbol = $(this).attr("symbol");
+                    console.log(xml);
+                    $(this).find("LastTradePriceOnly").each(function () {
+                        price.push(parseFloat($(this).text()));
+                    });
+                    
+                    console.log(price);
+                });
+				
+                
+            });
+            return price;
+        }
+       
+        // function StockPriceTicker() {
+        //     var Symbol = "", CompName = "", Price = "", ChnageInPrice = "", PercentChnageInPrice = ""; 
+        //     var CNames = "AAPL,AMDA";
+        //     var flickerAPI = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22" + CNames + "%22)&env=store://datatables.org/alltableswithkeys";
+        //     var StockTickerHTML = "";
+            
+        //     var StockTickerXML = $.get(flickerAPI, function(xml) {
+        //         $(xml).find("quote").each(function () {
+        //             Symbol = $(this).attr("symbol");
+        //             $(this).find("Name").each(function () {
+        //                 CompName = $(this).text();
+        //             });
+        //             $(this).find("LastTradePriceOnly").each(function () {
+        //                 Price = $(this).text();
+        //             });
+        //             $(this).find("Change").each(function () {
+        //                 ChnageInPrice = $(this).text();
+        //             });
+        //             $(this).find("PercentChange").each(function () {
+        //                 PercentChnageInPrice = $(this).text();
+        //             });
+                   
+        //             var PriceClass = "GreenText", PriceIcon="up_green";
+        //             if(parseFloat(ChnageInPrice) < 0) { PriceClass = "RedText"; PriceIcon="down_red"; }
+        //             StockTickerHTML = StockTickerHTML + "<span class='" + PriceClass + "'>";
+        //             StockTickerHTML = StockTickerHTML + "<span class='quote'>" + CompName + " (" + Symbol + ")</span> ";
+                    
+        //             StockTickerHTML = StockTickerHTML + parseFloat(Price).toFixed(2) + " ";
+        //             console.log(parseFloat(Price).toFixed(3));
+
+        //             StockTickerHTML = StockTickerHTML + "<span class='" + PriceIcon + "'></span>" + parseFloat(Math.abs(ChnageInPrice)).toFixed(2) + " (";
+        //             StockTickerHTML = StockTickerHTML + parseFloat( Math.abs(PercentChnageInPrice.split('%')[0])).toFixed(2) + "%)</span>";
+        //         });
+				
+        //         $("#dvStockTicker").html(StockTickerHTML);
+        //         $("#dvStockTicker").jStockTicker({interval: 30, speed: 2});
+        //     });
+        // }
+    </script>
+</head>
+<body>
+   <canvas id="myChart" width="400" height="100vh"></canvas>
+<script>
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fill: true,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [65, 59, 80, 81, 56, 55, 40],
+            spanGaps: false,
+        }
+    ]
+}
+});
+</script>
+</body>
+</html>
